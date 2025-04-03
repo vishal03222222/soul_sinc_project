@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import './Relationship.css'
-import { analyzeSentiment } from '../services/sentimentAnalysis'; // Added this import
+import { analyzeSentiment } from '../services/sentimentAnalysis'; 
 Chart.register(ArcElement, Tooltip, Legend);
 
 
