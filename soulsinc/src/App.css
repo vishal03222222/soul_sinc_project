@@ -1,0 +1,139 @@
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.start-screen {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.start-screen input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.start-screen button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.conversation-container {
+  margin-top: 30px;
+}
+
+.conversation {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.message.user {
+  background-color: #e3f2fd;
+  margin-left: 50px;
+}
+
+.message.ai {
+  background-color: #f1f1f1;
+  margin-right: 50px;
+}
+
+.phase-tag {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 5px;
+}
+
+.input-form {
+  display: flex;
+  gap: 10px;
+}
+
+.input-form input {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.input-form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.input-form .end-button {
+  background-color: #f44336;
+}
+
+.safety-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.safety-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+  max-width: 500px;
+}
+
+.safety-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.safety-buttons button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.safety-buttons button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.safety-buttons button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.session-summary {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.session-summary button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
