@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   conversationPhases, 
   detectSafetyConcerns,
@@ -6,20 +6,26 @@ import {
   getNextPhase
 } from '../services/aiService';
 import SafetyNotice from './SafetyNotice';
+import './conversation.css'; // We'll create this file
 
 export default function Conversation({
   contactName,
-  currentPhase,
-  onPhaseChange,
   onMemoryAdded,
   onSessionEnd
 }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [currentPhase, setCurrentPhase] = useState('onboarding');
   const [showSafetyNotice, setShowSafetyNotice] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   // Initialize conversation
-  useState(() => {
+  useEffect(() => {
     const initialQuestion = selectQuestion('onboarding', contactName);
     setMessages([{
       id: 1,
@@ -34,7 +40,7 @@ export default function Conversation({
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // Add user message to UI
+    // Add user message
     const userMessage = {
       id: messages.length + 1,
       text: inputValue,
@@ -59,7 +65,7 @@ export default function Conversation({
       tags: conversationPhases[currentPhase].memoryTags
     });
 
-    // Add AI response or end session
+    // Determine next phase
     const nextPhase = getNextPhase(currentPhase);
     if (nextPhase) {
       const nextQuestion = selectQuestion(nextPhase, contactName);
@@ -71,7 +77,7 @@ export default function Conversation({
         timestamp: new Date()
       };
       setMessages(prev => [...prev, userMessage, aiMessage]);
-      onPhaseChange(nextPhase);
+      setCurrentPhase(nextPhase);
     } else {
       setMessages(prev => [...prev, userMessage]);
       onSessionEnd();
@@ -81,42 +87,35 @@ export default function Conversation({
   };
 
   return (
-    <div className="conversation-interface">
-      <div className="phase-indicator">
-        Current Phase: <strong>{conversationPhases[currentPhase]?.name}</strong>
+    <div className="conversation-container">
+      <div className="conversation-header">
+        <h3>Reflecting on: {contactName}</h3>
+        <div className="phase-indicator">
+          {conversationPhases[currentPhase]?.name}
+        </div>
       </div>
 
-      <div className="messages-container">
+      <div className="messages-area">
         {messages.map((message) => (
           <div 
             key={message.id} 
             className={`message ${message.sender}`}
           >
-            <div className="message-content">
-              {message.text}
-            </div>
-            <div className="message-meta">
-              <span className="phase-tag">{message.phase}</span>
-              <span className="timestamp">
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
+            <div className="message-bubble">
+              <div className="message-text">{message.text}</div>
+              <div className="message-meta">
+                <span className="message-phase">{message.phase}</span>
+                <span className="message-time">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
-      {!showSafetyNotice ? (
-        <form onSubmit={handleSubmit} className="input-area">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type your response..."
-            autoFocus
-          />
-          <button type="submit">Send</button>
-        </form>
-      ) : (
+      {showSafetyNotice ? (
         <SafetyNotice
           onContinue={() => {
             setShowSafetyNotice(false);
@@ -129,10 +128,21 @@ export default function Conversation({
               phase: nextPhase,
               timestamp: new Date()
             }]);
-            onPhaseChange(nextPhase);
+            setCurrentPhase(nextPhase);
           }}
           onTakeBreak={onSessionEnd}
         />
+      ) : (
+        <form onSubmit={handleSubmit} className="input-area">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type your response..."
+            autoFocus
+          />
+          <button type="submit">Send</button>
+        </form>
       )}
     </div>
   );

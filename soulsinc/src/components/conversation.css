@@ -1,0 +1,134 @@
+/* Conversation.css */
+.conversation-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f5f7fa;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .conversation-header {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+  }
+  
+  .phase-indicator {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+  
+  .messages-area {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #f0f4f8;
+  }
+  
+  .message {
+    margin-bottom: 1rem;
+    display: flex;
+  }
+  
+  .message.user {
+    justify-content: flex-end;
+  }
+  
+  .message.ai {
+    justify-content: flex-start;
+  }
+  
+  .message-bubble {
+    max-width: 70%;
+    padding: 0.8rem 1rem;
+    border-radius: 18px;
+    position: relative;
+  }
+  
+  .message.user .message-bubble {
+    background-color: #6e8efb;
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .message.ai .message-bubble {
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .message-text {
+    word-wrap: break-word;
+  }
+  
+  .message-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    opacity: 0.8;
+  }
+  
+  .message.user .message-meta {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .message.ai .message-meta {
+    color: #7b8b9a;
+  }
+  
+  .input-area {
+    display: flex;
+    padding: 1rem;
+    background-color: white;
+    border-top: 1px solid #e1e8ed;
+  }
+  
+  .input-area input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e1e8ed;
+    border-radius: 24px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .input-area input:focus {
+    border-color: #6e8efb;
+  }
+  
+  .input-area button {
+    margin-left: 0.8rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #6e8efb;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .input-area button:hover {
+    background-color: #5a7df4;
+  }
+  
+  /* Animation for new messages */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .message {
+    animation: fadeIn 0.3s ease-out;
+  }
