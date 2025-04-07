@@ -1,8 +1,7 @@
-// src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RelationshipProfile } from './services/relationshipService';
 import Conversation from './components/ConversationPhase';
-//import Relationship from './components/Relationship';
+import SessionSummary from './components/SessionSummary';
 import './App.css';
 
 function App() {
@@ -10,32 +9,52 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [sessionEnded, setSessionEnded] = useState(false);
 
+  // Load from localStorage if available
+  useEffect(() => {
+    const savedProfile = localStorage.getItem('relationshipProfile');
+    if (savedProfile) {
+      try {
+        const parsed = JSON.parse(savedProfile);
+        setProfile(RelationshipProfile.revive(parsed));
+      } catch (e) {
+        console.error("Failed to load profile", e);
+      }
+    }
+  }, []);
+
   const startNewSession = () => {
-    // Properly instantiate with 'new'
+    // Proper class instantiation
     const newProfile = new RelationshipProfile(contactName);
     setProfile(newProfile);
     setSessionEnded(false);
   };
 
-  const handleMemoryAdded = (memoryData) => {
-    if (!profile) return;
-    
-    // Use the class method properly
-    const updatedProfile = profile.addMemory(
-      memoryData.type,
-      memoryData.content,
-      memoryData.weight,
-      memoryData.tags
-    );
-    
-    setProfile(updatedProfile);
-  };
+ // In your handleMemoryAdded function
+const handleMemoryAdded = (memoryData) => {
+  if (!profile) return;
+  
+  // This will return a proper RelationshipProfile instance
+  const updatedProfile = profile.addMemory(
+    memoryData.type,
+    memoryData.content,
+    memoryData.weight,
+    memoryData.tags,
+    memoryData.context
+  );
+
+  // Ensure we're storing the proper instance
+  setProfile(updatedProfile);
+  
+  // If using localStorage:
+  localStorage.setItem('relationshipProfile', JSON.stringify(updatedProfile));
+};
 
   const handleEndSession = () => {
     setSessionEnded(true);
   };
 
   const handleNewSession = () => {
+    localStorage.removeItem('relationshipProfile');
     setProfile(null);
     setContactName('');
     setSessionEnded(false);
@@ -50,7 +69,7 @@ function App() {
             type="text"
             value={contactName}
             onChange={(e) => setContactName(e.target.value)}
-            placeholder="Who would you like to reflect on today?"
+            placeholder="Who would you like to reflect on?"
           />
           <button 
             onClick={startNewSession} 
@@ -60,7 +79,7 @@ function App() {
           </button>
         </div>
       ) : sessionEnded ? (
-        <RelationshipProfile 
+        <SessionSummary 
           profile={profile} 
           onNewSession={handleNewSession} 
         />
