@@ -1,134 +1,137 @@
-/* Conversation.css */
+/* Conversation Container */
 .conversation-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f5f7fa;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Messages Area */
+.messages-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f0f4f8;
+}
+
+/* Message Bubbles */
+.message {
+  margin-bottom: 15px;
+  display: flex;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.message.ai {
+  justify-content: flex-start;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.4;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.message.ai .message-content {
+  background-color: white;
+  border: 1px solid #e1e8ed;
+  border-bottom-left-radius: 4px;
+  color: #333;
+}
+
+.message.user .message-content {
+  background-color: #6e8efb;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+/* Input Area */
+.conversation-container form {
+  display: flex;
+  padding: 15px;
+  background-color: white;
+  border-top: 1px solid #e1e8ed;
+}
+
+.conversation-container input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #e1e8ed;
+  border-radius: 24px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.conversation-container input:focus {
+  border-color: #6e8efb;
+  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+}
+
+.conversation-container button {
+  margin-left: 10px;
+  padding: 0 20px;
+  background-color: #6e8efb;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.conversation-container button:hover {
+  background-color: #5a7df4;
+}
+
+/* Safety Notice */
+.safety-notice {
+  background-color: #fff3cd;
+  padding: 15px;
+  border-top: 1px solid #ffeeba;
+  text-align: center;
+}
+
+.safety-notice p {
+  margin-bottom: 15px;
+  color: #856404;
+}
+
+.safety-notice button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.safety-notice button:first-child {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.safety-notice button:last-child {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .conversation-header {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    position: relative;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .phase-indicator {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    display: inline-block;
-    margin-top: 0.5rem;
-  }
-  
-  .messages-area {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-    background-color: #f0f4f8;
-  }
-  
-  .message {
-    margin-bottom: 1rem;
-    display: flex;
-  }
-  
-  .message.user {
-    justify-content: flex-end;
-  }
-  
-  .message.ai {
-    justify-content: flex-start;
-  }
-  
-  .message-bubble {
-    max-width: 70%;
-    padding: 0.8rem 1rem;
-    border-radius: 18px;
-    position: relative;
-  }
-  
-  .message.user .message-bubble {
-    background-color: #6e8efb;
-    color: white;
-    border-bottom-right-radius: 4px;
-  }
-  
-  .message.ai .message-bubble {
-    background-color: white;
-    border: 1px solid #e1e8ed;
-    border-bottom-left-radius: 4px;
-  }
-  
-  .message-text {
-    word-wrap: break-word;
-  }
-  
-  .message-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    font-size: 0.7rem;
-    opacity: 0.8;
-  }
-  
-  .message.user .message-meta {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .message.ai .message-meta {
-    color: #7b8b9a;
-  }
-  
-  .input-area {
-    display: flex;
-    padding: 1rem;
-    background-color: white;
-    border-top: 1px solid #e1e8ed;
-  }
-  
-  .input-area input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border: 1px solid #e1e8ed;
-    border-radius: 24px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  
-  .input-area input:focus {
-    border-color: #6e8efb;
-  }
-  
-  .input-area button {
-    margin-left: 0.8rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #6e8efb;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .input-area button:hover {
-    background-color: #5a7df4;
-  }
-  
-  /* Animation for new messages */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .message {
-    animation: fadeIn 0.3s ease-out;
-  }
+}

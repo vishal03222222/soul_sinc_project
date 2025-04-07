@@ -4,12 +4,12 @@ export const conversationPhases = {
       description: "Set context and break the ice with light, open-ended questions",
       starterQuestions: [
         "How did you and {contactName} meet?",
-        "What's your favorite memory with them?",
-        "How often do you talk or see each other?",
-        "What do you usually talk about?"
+        "How long have you known {contactName}?",
+        "What type of relationship do you have with {contactName}?",
+        "How often do you typically interact with {contactName}?"
       ],
       objectives: ["history", "frequency", "shared_topics"],
-      memoryTags: ["history", "memory"]
+      memoryTags: ["history", "type", "frequency"],
     },
     emotionalMapping: {
       name: "Emotional Mapping",

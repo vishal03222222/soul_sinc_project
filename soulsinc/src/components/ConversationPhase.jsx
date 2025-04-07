@@ -1,30 +1,20 @@
+// src/components/Conversation.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  conversationPhases, 
-  detectSafetyConcerns,
-  selectQuestion,
-  getNextPhase
-} from '../services/aiService';
+import { conversationPhases, detectSafetyConcerns, selectQuestion, getNextPhase } from '../services/aiService';
 import SafetyNotice from './SafetyNotice';
-import './conversation.css'; // We'll create this file
+import './conversation.css'
 
-export default function Conversation({
-  contactName,
-  onMemoryAdded,
-  onSessionEnd
-}) {
+export default function Conversation({ contactName, onMemoryAdded, onSessionEnd }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [currentPhase, setCurrentPhase] = useState('onboarding');
   const [showSafetyNotice, setShowSafetyNotice] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Initialize conversation
   useEffect(() => {
     const initialQuestion = selectQuestion('onboarding', contactName);
     setMessages([{
@@ -40,7 +30,6 @@ export default function Conversation({
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // Add user message
     const userMessage = {
       id: messages.length + 1,
       text: inputValue,
@@ -49,7 +38,6 @@ export default function Conversation({
       timestamp: new Date()
     };
 
-    // Check for safety concerns
     if (detectSafetyConcerns(inputValue)) {
       setMessages(prev => [...prev, userMessage]);
       setShowSafetyNotice(true);
@@ -57,7 +45,6 @@ export default function Conversation({
       return;
     }
 
-    // Add memory to profile
     onMemoryAdded({
       type: 'user_response',
       content: inputValue,
@@ -65,18 +52,16 @@ export default function Conversation({
       tags: conversationPhases[currentPhase].memoryTags
     });
 
-    // Determine next phase
     const nextPhase = getNextPhase(currentPhase);
     if (nextPhase) {
       const nextQuestion = selectQuestion(nextPhase, contactName);
-      const aiMessage = {
-        id: messages.length + 2,
+      setMessages(prev => [...prev, userMessage, {
+        id: prev.length + 2,
         text: nextQuestion,
         sender: 'ai',
         phase: nextPhase,
         timestamp: new Date()
-      };
-      setMessages(prev => [...prev, userMessage, aiMessage]);
+      }]);
       setCurrentPhase(nextPhase);
     } else {
       setMessages(prev => [...prev, userMessage]);
@@ -88,33 +73,15 @@ export default function Conversation({
 
   return (
     <div className="conversation-container">
-      <div className="conversation-header">
-        <h3>Reflecting on: {contactName}</h3>
-        <div className="phase-indicator">
-          {conversationPhases[currentPhase]?.name}
-        </div>
-      </div>
-
-      <div className="messages-area">
+      <div className="messages-container">
         {messages.map((message) => (
-          <div 
-            key={message.id} 
-            className={`message ${message.sender}`}
-          >
-            <div className="message-bubble">
-              <div className="message-text">{message.text}</div>
-              <div className="message-meta">
-                <span className="message-phase">{message.phase}</span>
-                <span className="message-time">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
-            </div>
+          <div key={message.id} className={`message ${message.sender}`}>
+            <div className="message-content">{message.text}</div>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-
+      
       {showSafetyNotice ? (
         <SafetyNotice
           onContinue={() => {
@@ -133,13 +100,12 @@ export default function Conversation({
           onTakeBreak={onSessionEnd}
         />
       ) : (
-        <form onSubmit={handleSubmit} className="input-area">
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type your response..."
-            autoFocus
           />
           <button type="submit">Send</button>
         </form>

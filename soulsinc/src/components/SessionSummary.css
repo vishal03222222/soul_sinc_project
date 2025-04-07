@@ -1,0 +1,146 @@
+.session-summary {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.summary-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.summary-header h3 {
+    color: #4a4e69;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.summary-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.contact-name {
+    color: #6e8efb;
+    font-weight: 600;
+}
+
+.themes-section {
+    margin-bottom: 25px;
+}
+
+.themes-section h4 {
+    color: #4a4e69;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.themes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.theme-tag {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.theme-count {
+    background-color: #bbdefb;
+    color: #0d47a1;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+    font-size: 0.7rem;
+}
+
+.no-themes {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sentiment-section {
+    margin: 30px 0;
+}
+
+.sentiment-section h4 {
+    color: #4a4e69;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.sentiment-display {
+    height: 8px;
+    background-color: #f0f4f8;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.sentiment-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 4px;
+}
+
+.sentiment-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.sentiment-value {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.new-session-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #6e8efb;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.new-session-button:hover {
+    background-color: #5a7df4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .session-summary {
+        padding: 15px;
+    }
+    
+    .summary-header h3 {
+        font-size: 1.5rem;
+    }
+}

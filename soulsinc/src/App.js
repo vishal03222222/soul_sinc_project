@@ -1,7 +1,8 @@
+// src/App.js
 import React, { useState } from 'react';
 import { RelationshipProfile } from './services/relationshipService';
 import Conversation from './components/ConversationPhase';
-//import RelationshipProfile from './components/RelationshipProfile';
+//import Relationship from './components/Relationship';
 import './App.css';
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
   const [sessionEnded, setSessionEnded] = useState(false);
 
   const startNewSession = () => {
-    // Create new profile instance with current contact name
+    // Properly instantiate with 'new'
     const newProfile = new RelationshipProfile(contactName);
     setProfile(newProfile);
     setSessionEnded(false);
@@ -19,24 +20,13 @@ function App() {
   const handleMemoryAdded = (memoryData) => {
     if (!profile) return;
     
-    // Create new profile instance with updated memories
-    const updatedProfile = new RelationshipProfile(profile.contactName, {
-      // Copy all existing profile properties
-      ...profile,
-      // Add new memory to the array
-      memories: [
-        ...profile.memories,
-        {
-          type: memoryData.type,
-          content: memoryData.content,
-          weight: memoryData.weight,
-          tags: memoryData.tags,
-          createdAt: new Date()
-        }
-      ],
-      // Update the timestamp
-      updatedAt: new Date()
-    });
+    // Use the class method properly
+    const updatedProfile = profile.addMemory(
+      memoryData.type,
+      memoryData.content,
+      memoryData.weight,
+      memoryData.tags
+    );
     
     setProfile(updatedProfile);
   };
@@ -55,25 +45,19 @@ function App() {
     <div className="app-container">
       {!profile ? (
         <div className="start-screen">
-          <h1 className="app-title">Emotional Mapping</h1>
-          <p className="app-subtitle">Reflect on your important relationships</p>
-          
-          <div className="input-group">
-            <input
-              type="text"
-              value={contactName}
-              onChange={(e) => setContactName(e.target.value)}
-              placeholder="Who would you like to reflect on today?"
-              className="contact-input"
-            />
-            <button
-              onClick={startNewSession}
-              disabled={!contactName.trim()}
-              className="start-button"
-            >
-              Begin Reflection
-            </button>
-          </div>
+          <h1>Emotional Mapping</h1>
+          <input
+            type="text"
+            value={contactName}
+            onChange={(e) => setContactName(e.target.value)}
+            placeholder="Who would you like to reflect on today?"
+          />
+          <button 
+            onClick={startNewSession} 
+            disabled={!contactName.trim()}
+          >
+            Begin Reflection
+          </button>
         </div>
       ) : sessionEnded ? (
         <RelationshipProfile 
